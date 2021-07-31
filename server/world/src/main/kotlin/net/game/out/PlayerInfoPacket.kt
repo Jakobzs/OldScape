@@ -44,6 +44,7 @@ class PlayerInfoPacket(
     private var skip = 0
 
     override fun encode(ctx: ChannelHandlerContext): ByteBuf {
+        println("GPI start here")
         val mainBuf = ctx.alloc().buffer()
         val maskBuf = ctx.alloc().buffer()
         processLocalPlayers(mainBuf.toBitMode(), maskBuf, true)
