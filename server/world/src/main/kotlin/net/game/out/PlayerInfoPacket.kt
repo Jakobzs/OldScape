@@ -448,6 +448,8 @@ class PlayerInfoPacket(
             tempBuf.writeShort(0) // skillId level
             tempBuf.writeByte(0) // hidden
             writeByte(tempBuf.writerIndex())
+            println("Writer index: " + tempBuf.writerIndex())
+
             writeBytesReversedAdd(tempBuf)
         }
 
