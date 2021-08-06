@@ -47,10 +47,27 @@ class PlayerInfoPacket(
         println("GPI start here")
         val mainBuf = ctx.alloc().buffer()
         val maskBuf = ctx.alloc().buffer()
+
         processLocalPlayers(mainBuf.toBitMode(), maskBuf, true)
+        println("Readable bytes 1: " + mainBuf.readableBytes())
+        for (i in 0 until mainBuf.readableBytes()) print(String.format("%02x", mainBuf.getByte(i)) + " ")
+        println()
+
         processLocalPlayers(mainBuf.toBitMode(), maskBuf, false)
+        println("Readable bytes 2: " + mainBuf.readableBytes())
+        for (i in 0 until mainBuf.readableBytes()) print(String.format("%02x", mainBuf.getByte(i)) + " ")
+        println()
+
         processExternalPlayers(mainBuf.toBitMode(), maskBuf, false)
+        println("Readable bytes 3: " + mainBuf.readableBytes())
+        for (i in 0 until mainBuf.readableBytes()) print(String.format("%02x", mainBuf.getByte(i)) + " ")
+        println()
+
         processExternalPlayers(mainBuf.toBitMode(), maskBuf, true)
+        println("Readable bytes 4: " + mainBuf.readableBytes())
+        for (i in 0 until mainBuf.readableBytes()) print(String.format("%02x", mainBuf.getByte(i)) + " ")
+        println()
+
         im.localPlayerCount = 0
         im.externalPlayerCount = 0
         for (index in 1 until World.MAX_PLAYERS) {
