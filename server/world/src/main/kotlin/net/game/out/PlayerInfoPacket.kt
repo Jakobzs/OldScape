@@ -27,6 +27,7 @@ import io.guthix.oldscape.server.world.entity.*
 import io.guthix.oldscape.server.world.entity.interest.*
 import io.guthix.oldscape.server.world.map.Tile
 import io.netty.buffer.ByteBuf
+import io.netty.buffer.ByteBufUtil
 import io.netty.buffer.Unpooled
 import io.netty.channel.ChannelHandlerContext
 import java.util.*
@@ -47,6 +48,8 @@ class PlayerInfoPacket(
         println("GPI start here")
         val mainBuf = ctx.alloc().buffer()
         val maskBuf = ctx.alloc().buffer()
+
+        //println(ByteBufUtil.prettyHexDump(mainBuf))
 
         processLocalPlayers(mainBuf.toBitMode(), maskBuf, true)
         println("Readable bytes 1: " + mainBuf.readableBytes())
