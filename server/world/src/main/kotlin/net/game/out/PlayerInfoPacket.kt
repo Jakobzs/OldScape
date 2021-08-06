@@ -343,6 +343,8 @@ class PlayerInfoPacket(
             maskBuf.writeByte(mask)
         }
 
+        println("Mask value: " + mask)
+
         println("MASKBUF MASK")
         for (i in 0 until maskBuf.readableBytes()) print(String.format("%02x", maskBuf.getByte(i)) + " ")
         println()
