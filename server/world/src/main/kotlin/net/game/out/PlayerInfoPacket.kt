@@ -326,17 +326,27 @@ class PlayerInfoPacket(
         maskBuf: ByteBuf,
         privateUpdates: SortedSet<PlayerUpdateType> = sortedSetOf()
     ) {
+        // Variable for storing the value of the mask
         var mask = 0
+
+        // Add and iterate over all update flags, bitwise OR them
         privateUpdates.addAll(localPlayer.updateFlags)
         privateUpdates.forEach { update ->
             mask = mask or update.mask
         }
+
+        // If the mask is greater than a byte we write 2 bytes, else just the mask itself
         if (mask >= 0xff) {
             maskBuf.writeByte(mask or 0x40)
             maskBuf.writeByte(mask shr 8)
         } else {
             maskBuf.writeByte(mask)
         }
+
+        println("MASKBUF MASK")
+        for (i in 0 until maskBuf.readableBytes()) print(String.format("%02x", maskBuf.getByte(i)) + " ")
+        println()
+
         privateUpdates.forEach { updateType ->
             updateType.encode(maskBuf, localPlayer)
         }
