@@ -349,6 +349,7 @@ class PlayerInfoPacket(
         for (i in 0 until maskBuf.readableBytes()) print(String.format("%02x", maskBuf.getByte(i)) + " ")
         println()
 
+        // Go through all updates and encode the data
         privateUpdates.forEach { updateType ->
             updateType.encode(maskBuf, localPlayer)
         }
@@ -380,6 +381,7 @@ class PlayerInfoPacket(
         val appearance: PlayerUpdateType = PlayerUpdateType(3, 0x2) { player ->
             val tempBuf = Unpooled.buffer() // TODO use pooling
             tempBuf.writeByte(player.gender.opcode)
+            println("Gender opcode: " + player.gender.opcode)
             tempBuf.writeByte(if (player.isSkulled) 1 else -1)
             tempBuf.writeByte(player.prayerIcon)
             player.equipment.head?.let { // write head gear
