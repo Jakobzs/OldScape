@@ -174,6 +174,7 @@ class PlayerInfoPacket(
         for (i in 0 until im.localPlayerCount) {
             val localPlayerIndex = im.localPlayerIndexes[i]
             if (hasBeenSkippedLastTick(localPlayerIndex, nsn)) {
+                println("Skip: $skip")
                 if (skip > 0) {
                     skip--
                     markPlayerAsSkipped(localPlayerIndex)
@@ -181,10 +182,12 @@ class PlayerInfoPacket(
                     val localPlayer = im.localPlayers[localPlayerIndex]
                     val updateRequired = localPlayer != null && localUpdateRequired(player, localPlayer)
                     buf.writeBoolean(updateRequired)
+                    println("updateRequired: $updateRequired")
                     if (!updateRequired) {
                         skipLocalPlayers(buf, i, nsn)
                         markPlayerAsSkipped(localPlayerIndex)
                     } else {
+                        println("Update Local Player")
                         updateLocalPlayer(localPlayer!!, buf, maskBuf)
                     }
                 }
@@ -343,7 +346,7 @@ class PlayerInfoPacket(
             maskBuf.writeByte(mask)
         }
 
-        println("Mask value: " + mask)
+        println("Mask value: $mask")
 
         println("MASKBUF MASK")
         for (i in 0 until maskBuf.readableBytes()) print(String.format("%02x", maskBuf.getByte(i)) + " ")
