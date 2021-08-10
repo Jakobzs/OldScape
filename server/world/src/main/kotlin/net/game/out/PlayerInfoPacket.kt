@@ -117,6 +117,7 @@ class PlayerInfoPacket(
         fun updateLocalPlayer(localPlayer: Player, bitBuf: BitBuf, maskBuf: ByteBuf) {
             val flagUpdateRequired = localPlayer.updateFlags.isNotEmpty()
             bitBuf.writeBoolean(flagUpdateRequired)
+            println("flagUpdateRequired: $flagUpdateRequired")
             if (localPlayer.movementType == MovementInterestUpdate.TELEPORT) {
                 bitBuf.writeBits(value = 3, amount = 2)
                 var localPlayerOutsideView = !player.pos.isInterestedIn(localPlayer.pos)
@@ -167,6 +168,7 @@ class PlayerInfoPacket(
                 .toList()
                 .forEach { _ -> skip++ }
             bitBuf.writeSkip(skip)
+            println("Skip local players result: $skip")
         }
 
 
@@ -181,7 +183,17 @@ class PlayerInfoPacket(
                 } else {
                     val localPlayer = im.localPlayers[localPlayerIndex]
                     val updateRequired = localPlayer != null && localUpdateRequired(player, localPlayer)
+
+                    println("BEFORE WRITE BOOL")
+                    for (j in 0 until buf.toByteMode().readableBytes()) print(String.format("%02x", buf.toByteMode().getByte(j)) + " ")
+                    println()
+
                     buf.writeBoolean(updateRequired)
+
+                    println("AFTER WRITE BOOL")
+                    for (j in 0 until buf.toByteMode().readableBytes()) print(String.format("%02x", buf.toByteMode().getByte(j)) + " ")
+                    println()
+
                     println("updateRequired: $updateRequired")
                     if (!updateRequired) {
                         skipLocalPlayers(buf, i, nsn)
