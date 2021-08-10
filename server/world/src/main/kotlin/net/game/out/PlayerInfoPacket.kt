@@ -49,7 +49,7 @@ class PlayerInfoPacket(
         val mainBuf = ctx.alloc().buffer()
         val maskBuf = ctx.alloc().buffer()
 
-        //println(ByteBufUtil.prettyHexDump(mainBuf))
+        //println(ByteBufUtil.prettyHexDump(mainBuf)) // a bit too detailed
 
         processLocalPlayers(mainBuf.toBitMode(), maskBuf, true)
         println("Step 1:")
@@ -430,6 +430,8 @@ class PlayerInfoPacket(
             } else {
                 tempBuf.writeByte(0)
             }
+            //println("Hair: " + player.colours.hair + ", torso: " + player.colours.torso + ", legs: " + player.colours.legs + ", feet: " + player.colours.feet + ", skin: " + player.colours.skin)
+            // Just default 0 all of them
             tempBuf.writeByte(player.colours.hair)
             tempBuf.writeByte(player.colours.torso)
             tempBuf.writeByte(player.colours.legs)
