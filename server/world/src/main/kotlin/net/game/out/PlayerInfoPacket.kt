@@ -455,7 +455,9 @@ class PlayerInfoPacket(
             writeByte(tempBuf.writerIndex())
             println("Writer index: " + tempBuf.writerIndex())
 
-            writeBytesReversedAdd(tempBuf)
+            val a = writeBytesReversedAdd(tempBuf)
+            for (i in 0 until a.readableBytes()) print(String.format("%02x", a.getByte(i)) + " ")
+            println()
         }
 
         val shout: PlayerUpdateType = PlayerUpdateType(4, 0x20) { player ->
@@ -492,6 +494,7 @@ class PlayerInfoPacket(
 
 
         val nameModifiers: PlayerUpdateType = PlayerUpdateType(8, 0x100) { player ->
+            // This consists of 3 empty strings
             player.nameModifiers.forEach(::writeStringCP1252)
         }
 
@@ -528,6 +531,7 @@ class PlayerInfoPacket(
         }
 
         val orientation: PlayerUpdateType = PlayerUpdateType(11, 0x8) { player ->
+            println("Player orientation: " + player.orientation)
             writeShortAdd(player.orientation)
         }
     }
