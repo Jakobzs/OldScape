@@ -52,7 +52,7 @@ class PlayerInfoPacket(
         //println(ByteBufUtil.prettyHexDump(mainBuf)) // a bit too detailed
 
         processLocalPlayers(mainBuf.toBitMode(), maskBuf, true)
-        println("Step 1:")
+        println("Local players active:")
         print("mainBuf: ")
         for (i in 0 until mainBuf.readableBytes()) print(String.format("%02x", mainBuf.getByte(i)) + " ")
         println()
@@ -62,7 +62,7 @@ class PlayerInfoPacket(
         println()
 
         processLocalPlayers(mainBuf.toBitMode(), maskBuf, false)
-        println("Step 2:")
+        println("Local players inactive:")
         print("mainBuf: ")
         for (i in 0 until mainBuf.readableBytes()) print(String.format("%02x", mainBuf.getByte(i)) + " ")
         println()
@@ -72,7 +72,7 @@ class PlayerInfoPacket(
         println()
 
         processExternalPlayers(mainBuf.toBitMode(), maskBuf, false)
-        println("Step 3:")
+        println("Remote players inactive:")
         print("mainBuf: ")
         for (i in 0 until mainBuf.readableBytes()) print(String.format("%02x", mainBuf.getByte(i)) + " ")
         println()
@@ -82,7 +82,7 @@ class PlayerInfoPacket(
         println()
 
         processExternalPlayers(mainBuf.toBitMode(), maskBuf, true)
-        println("Step 4:")
+        println("Local players active:")
         print("mainBuf: ")
         for (i in 0 until mainBuf.readableBytes()) print(String.format("%02x", mainBuf.getByte(i)) + " ")
         println()
@@ -175,6 +175,7 @@ class PlayerInfoPacket(
         skip = 0
         for (i in 0 until im.localPlayerCount) {
             val localPlayerIndex = im.localPlayerIndexes[i]
+            // nsn = active group.
             if (hasBeenSkippedLastTick(localPlayerIndex, nsn)) {
                 println("Skip: $skip")
                 if (skip > 0) {
